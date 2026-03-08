@@ -1,20 +1,42 @@
 # 🚀 AI Matrix Multiplication Accelerator (SystemVerilog)
 
-This repository contains a fully synthesizable hardware accelerator designed to perform high-speed matrix multiplication, optimized for AI and Deep Learning workloads.
+A high-performance hardware accelerator designed to perform 4x4 signed matrix multiplication, optimized for Artificial Intelligence and Deep Learning workloads. This design leverages advanced digital logic techniques to maximize throughput and minimize area.
 
-## 🏗️ Architecture Overview
-The design utilizes a hierarchical approach to manage complexity and maximize throughput:
-- **Math Engine:** Implements a Radix-4 Booth Multiplier to reduce partial products by 50%, saving area and power.
-- **Computation:** Uses a parallel MAC (Multiply-Accumulate) structure for simultaneous dot-product calculations.
-- **Memory Management:** Features dual memory modules (`mem_mod_a` and `mem_mod_b`) to provide a constant stream of data to the processing elements.
 
-## 🛠️ Technical Specifications
-- **Hardware Language:** SystemVerilog
-- **Multiplication Logic:** Radix-4 Booth Encoding
-- **Pipeline Latency:** 9-cycle stabilized output
-- **Design Tool:** Xilinx Vivado
 
-## 📁 Key Modules
-- `top_module.sv`: Top-level integration and data routing.
-- `booth.sv`: Core Radix-4 logic for optimized multiplication.
-- `pe.sv`: Individual processing element for dot-product arithmetic.
+## 🛠️ Architectural Features
+
+### 1. Radix-4 Booth Multiplier
+The core multiplication engine uses **Radix-4 Booth Encoding**. 
+- **Efficiency:** Reduces the number of partial products by 50% compared to standard multipliers.
+- **Performance:** Significantly lowers the total gate count and propagation delay, making it ideal for high-speed AI inference hardware.
+
+### 2. Pipelined MAC (Multiply-Accumulate) Unit
+The Processing Elements (PEs) are structured in a parallel architecture:
+- **Streaming Logic:** Data flows from memory into a pipelined MAC unit.
+- **Latency Management:** Implements a 9-cycle pipeline to stabilize and register outputs before final storage.
+
+### 3. Modular Memory Subsystem
+- **Memory A:** Optimized for row-wise data delivery.
+- **Memory B:** Specialized module to hold the full weight matrix for reuse, reducing unnecessary data movement.
+
+## 📊 Simulation & Verification
+The design was fully verified using a SystemVerilog testbench in **Xilinx Vivado**.
+
+### Waveform Analysis
+The simulation confirms the 9-cycle latency and the functional accuracy of the Booth-encoded multiplication.
+
+![Simulation Waveform](simulation_waveform.png)
+
+## 📁 Repository Structure
+- `booth.sv`: Implementation of Radix-4 Booth Encoding.
+- `mul.sv`: Intermediate multiplier module.
+- `pe.sv`: Processing Element for dot-product calculation.
+- `mac.sv`: Row-wise MAC controller.
+- `top_module.sv`: Top-level integration and control logic.
+- `tb_top.sv`: Complete verification testbench.
+
+## 🔬 Tech Stack
+- **HDL:** SystemVerilog / Verilog
+- **Tools:** Xilinx Vivado (Synthesis & Simulation)
+- **Target:** FPGA/ASIC Synthesizable RTL
